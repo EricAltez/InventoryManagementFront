@@ -1,6 +1,5 @@
 "use client";
-import Input from "./components/input";
-import LoginForm from "./components/login";
+import LoginForm from "../components/login";
 
 export default function Home() {
   return (
