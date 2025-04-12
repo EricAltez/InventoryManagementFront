@@ -9,7 +9,6 @@ export default function LoginForm() {
     event.preventDefault();
     postLoginData(email, password);
     console.log("Clicked button");
-    console.log(email, password);
   };
 
   async function postLoginData(email: string, password: string) {
@@ -26,6 +25,7 @@ export default function LoginForm() {
         throw new Error(`Response status: ${response.status}`);
       }
       const json = await response.json();
+      localStorage.setItem("authToken", json.token);
       console.log(json);
     } catch (error) {
       console.log(error);
