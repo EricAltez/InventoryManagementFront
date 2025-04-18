@@ -8,7 +8,7 @@ interface InputProps {
 
 export default function Input(props: InputProps) {
   return (
-    <div>
+    <div className="border-black border-solid border-2">
       <label>{props.label}</label>
       <input
         placeholder={props.placeholder}

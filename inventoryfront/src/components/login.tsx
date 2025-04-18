@@ -34,7 +34,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="bg-blue-800 border-solid border-2 p-2 space-y-2">
+      <div className="bg-blue-800 border-solid border-black border-2 p-2 space-y-2">
         <div>
           <label>Email:</label>
           <Input

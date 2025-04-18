@@ -4,3 +4,8 @@ type Product = {
   description: string;
   stock: number;
 };
+
+type SaleProduct = {
+  productId: number;
+  quantity: number;
+};
