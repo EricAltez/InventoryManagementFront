@@ -1,7 +1,8 @@
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
   label?: string;
   value: string;
+  min?: "0";
   placeholder?: string;
   onChange: (value: any) => void;
 }
