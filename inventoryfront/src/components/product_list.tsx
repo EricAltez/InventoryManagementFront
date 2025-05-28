@@ -14,7 +14,7 @@ export default function ProductsList() {
       setProducts(data);
     };
     fetchProducts();
-  });
+  }, []);
 
   return (
     <div className="flex">
