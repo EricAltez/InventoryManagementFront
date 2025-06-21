@@ -1,14 +1,15 @@
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
   label?: string;
   value: string;
+  min?: "0";
   placeholder?: string;
   onChange: (value: any) => void;
 }
 
 export default function Input(props: InputProps) {
   return (
-    <div>
+    <div className="border-black border-solid border-2">
       <label>{props.label}</label>
       <input
         placeholder={props.placeholder}

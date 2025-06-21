@@ -5,6 +5,7 @@ export default function Sidebar() {
     { id: 1, name: "products" },
     { id: 2, name: "sell" },
     { id: 3, name: "estadistics" },
+    { id: 4, name: "create product" },
   ];
   return (
     <div className="sidebar h-full w-[200px]">
