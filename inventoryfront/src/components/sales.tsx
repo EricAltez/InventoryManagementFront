@@ -5,7 +5,9 @@ export default function Sales() {
   const [products, setProducts] = useState<ProductToSale[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<
+    (Product & { quantity: number }) | null
+  >(null);
   const [quantity, setQuantity] = useState("");
   const [saleList, setSaleList] = useState<ProductToSale[]>([]);
   const [productIdError, setProductIdError] = useState("");
@@ -129,30 +131,46 @@ export default function Sales() {
             {/*Product selector*/}
             <div>
               <div className="w-[300px]">
-                <label className="block mb-2">Product:</label>
-                {/* Search input */}
-                <input
-                  type="text"
-                  placeholder="Search by name, id or description"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full p-2 border rounded"
-                />
+                <div className="flex">
+                  <label className="block mb-2">Product:</label>
+                  {/* Search input */}
+                  <input
+                    type="text"
+                    placeholder="Search by name, id or description"
+                    value={selectedProduct?.name || searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full p-2 border rounded"
+                  />
+                  {/* Clean button*/}
+                  <button
+                    type="button"
+                    className="border border-solid text-black hover:text-red-500 text-lg font-bold focus:outline-none"
+                    onClick={() => setSelectedProduct(null)}
+                    title="clean selection"
+                    tabIndex={0}
+                    aria-label="clean selection"
+                  >
+                    X
+                  </button>
+                </div>
                 {/* Product list */}
-                <ul className="border rounded mt-2 max-h-40 overflow-y-auto">
-                  {filteredProducts.map((product) => (
-                    <li
-                      key={product.id}
-                      className="p-2 cursor-pointer hover:bg-gray-200"
-                      onClick={() =>
-                        setSelectedProduct({ ...product, quantity: 0 })
-                      }
-                    >
-                      {product.name} (ID: {product.id}) - {product.description}
-                      {product.price}
-                    </li>
-                  ))}
-                </ul>
+                {searchTerm && filteredProducts.length > 0 && (
+                  <ul className="border rounded mt-2 max-h-40 overflow-y-auto">
+                    {filteredProducts.map((product) => (
+                      <li
+                        key={product.id}
+                        className="p-2 cursor-pointer hover:bg-gray-200"
+                        onClick={() =>
+                          setSelectedProduct({ ...product, quantity: 0 })
+                        }
+                      >
+                        {product.name} (ID: {product.id}) -{" "}
+                        {product.description}
+                        {product.price}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 {productIdError && (
                   <p className="text-red-500">{productIdError}</p>
                 )}
