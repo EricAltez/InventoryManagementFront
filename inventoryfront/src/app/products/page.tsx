@@ -2,6 +2,7 @@
 
 import ProductsList from "@/components/product_list";
 import Sales from "@/components/sales";
+import Sidebar from "@/components/sidebar";
 import SideBarButon from "@/components/sidebar_buton";
 import Stadistics from "@/components/stats";
 import { useState } from "react";
@@ -12,11 +13,12 @@ export default function MainView() {
     { id: 1, name: "products" },
     { id: 2, name: "sales" },
     { id: 3, name: "statistics" },
+    { id: 4, name: "new product" },
   ];
 
   return (
     <div className="flex w-screen h-screen">
-      <div className="sidebar h-full w-[200px]">
+      <Sidebar>
         <div>
           {buttons.map((b, index) => {
             return (
@@ -28,7 +30,7 @@ export default function MainView() {
             );
           })}
         </div>
-      </div>
+      </Sidebar>
       <div className="flex w-full h-full">
         {activeview === "products" && <ProductsList />}
         {activeview === "sales" && <Sales />}
