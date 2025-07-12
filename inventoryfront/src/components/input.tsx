@@ -9,7 +9,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export default function Input(props: InputProps) {
   return (
-    <div className="border-black border-solid border-2">
+    <div className="border-solid rounded border-2">
       <label>{props.label}</label>
       <input
         placeholder={props.placeholder}

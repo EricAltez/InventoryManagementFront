@@ -17,7 +17,7 @@ export default function MainView() {
   ];
 
   return (
-    <div className="flex w-screen h-screen">
+    <div className="flex w-screen h-screen bg-[#ebebeb]">
       <Sidebar>
         <div>
           {buttons.map((b, index) => {

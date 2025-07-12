@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Input from "./input";
+import ProductSelector from "./product_selector";
 
 export default function Sales() {
   const [products, setProducts] = useState<ProductToSale[]>([]);
@@ -13,7 +13,7 @@ export default function Sales() {
   const [productIdError, setProductIdError] = useState("");
   const [quantityError, setQuantityError] = useState("");
 
-  //Fetc products from the API
+  //Fetch products from the API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -118,7 +118,6 @@ export default function Sales() {
         id="Main content"
         className="flex lg:w-[1500px] grid-cols-1 lg:grid-cols-2 items-start gap-8 p-4 border-solid border-2 border-black rounded-lg"
       >
-        {/*define the fields to be used*/}
         {/*Form*/}
         <div id="Form" className="w-1/3 p-4 border rounded-lg shadow">
           <h2 className="text-center text-lg text-black font-bold p-2">
@@ -129,73 +128,14 @@ export default function Sales() {
             className="items-center justify-items-center"
           >
             {/*Product selector*/}
-            <div>
-              <div className="w-[300px]">
-                <div className="flex">
-                  <label className="block mb-2">Product:</label>
-                  {/* Search input */}
-                  <input
-                    type="text"
-                    placeholder="Search by name, id or description"
-                    value={selectedProduct?.name || searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full p-2 border rounded"
-                  />
-                  {/* Clean button*/}
-                  <button
-                    type="button"
-                    className="border border-solid text-black hover:text-red-500 text-lg font-bold focus:outline-none"
-                    onClick={() => setSelectedProduct(null)}
-                    title="clean selection"
-                    tabIndex={0}
-                    aria-label="clean selection"
-                  >
-                    X
-                  </button>
-                </div>
-                {/* Product list */}
-                {searchTerm && filteredProducts.length > 0 && (
-                  <ul className="border rounded mt-2 max-h-40 overflow-y-auto">
-                    {filteredProducts.map((product) => (
-                      <li
-                        key={product.id}
-                        className="p-2 cursor-pointer hover:bg-gray-200"
-                        onClick={() =>
-                          setSelectedProduct({ ...product, quantity: 0 })
-                        }
-                      >
-                        {product.name} (ID: {product.id}) -{" "}
-                        {product.description}
-                        {product.price}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {productIdError && (
-                  <p className="text-red-500">{productIdError}</p>
-                )}
-              </div>
-              <div className="w-[300px]">
-                <label className="block mb-2">Quantity: </label>
-                <Input
-                  placeholder="quantity"
-                  value={quantity}
-                  type="number"
-                  onChange={(value) => {
-                    const numericValue = value.replace(/\D/g, "");
-                    if (numericValue === "" || parseInt(numericValue) <= 0) {
-                      setQuantityError("Please enter a valid quantity");
-                    } else {
-                      setQuantityError(""); // Clean the error message
-                    }
-                    setQuantity(numericValue);
-                  }}
-                />
-                {quantityError && (
-                  <p className="text-red-500">{quantityError}</p>
-                )}
-              </div>
-            </div>
+
+            <ProductSelector
+              products={products}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedProduct={selectedProduct}
+              setSelectedProduct={setSelectedProduct}
+            />
             {/*Add product button*/}
             <div className="p-2">
               <button
