@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ProductSelector from "./product_selector";
+import SaleList from "./sale_list";
 
 export default function Sales() {
   const [products, setProducts] = useState<ProductToSale[]>([]);
@@ -10,8 +11,6 @@ export default function Sales() {
   >(null);
   const [quantity, setQuantity] = useState("");
   const [saleList, setSaleList] = useState<ProductToSale[]>([]);
-  const [productIdError, setProductIdError] = useState("");
-  const [quantityError, setQuantityError] = useState("");
 
   //Fetch products from the API
   useEffect(() => {
@@ -30,17 +29,6 @@ export default function Sales() {
     };
     fetchProducts();
   }, []);
-
-  //Filter products based on search term
-  useEffect(() => {
-    const filtered = products.filter(
-      (product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.id.toString().includes(searchTerm)
-    );
-    setFilteredProducts(filtered);
-  }, [searchTerm, products]);
 
   //handle adding a product to the sale list
   const addToList = async (event: any) => {
@@ -71,8 +59,6 @@ export default function Sales() {
     ]);
     setSelectedProduct(null); // Clear the selected product
     setQuantity("");
-    setProductIdError(""); //Clean the error message
-    setQuantityError(""); //Clean the error message
   };
 
   //handle making a sale
@@ -107,8 +93,6 @@ export default function Sales() {
     }
   };
 
-  const total = saleList.reduce((acc, item) => acc + item.totalPrice, 0);
-
   return (
     // Main container
     <div className="items-center justify-items-center max-auto min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -128,63 +112,19 @@ export default function Sales() {
             className="items-center justify-items-center"
           >
             {/*Product selector*/}
-
             <ProductSelector
+              addToList={addToList}
               products={products}
+              quantity={quantity}
+              setQuantity={setQuantity}
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
             />
-            {/*Add product button*/}
-            <div className="p-2">
-              <button
-                className="border-solid border-black bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                type="submit"
-                onClick={addToList}
-              >
-                Add to sale list
-              </button>
-            </div>
           </form>
         </div>
-        {/*Sale List*/}
-        <div className="flex w-2/3 border-solid border-2 border-black p-4 rounded-lg">
-          <div className="lg:w-[700px] border-solid border-2 border-black p-4 rounded-lg">
-            <h2 className="text-center text-lg text-black font-bold p-2">
-              Sale List
-            </h2>
-            <ul className="space-y-2 text-black">
-              <div className="grid grid-cols-5 justify-between">
-                <p className="p-2">ID:</p>
-                <p className="p-2">Name:</p>
-                <p className="p-2">Description:</p>
-                <p className="p-2">Quantity: </p>
-                <p>price:</p>
-              </div>
-              {saleList.map((item, index) => (
-                <div key={index} className="grid grid-cols-5 justify-between">
-                  <p className="p-2">{item.id}</p>
-                  <p className="p-2">{item.name}</p>
-                  <p className="p-2">{item.description}</p>
-                  <p className="p-2">{item.quantity}</p>
-                  <p className="p-2">{item.totalPrice}</p>
-                </div>
-              ))}
-              <div className="grid grid-cols-5 justify-between">
-                <p className="p-2 col-span-4 text-right">Total:</p>
-                <p className="p-2">{total}</p>
-              </div>
-            </ul>
-          </div>
-          {/*Action button*/}
-          <button
-            className="w-[200px] h-[50px] border-solid border-black bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={makeSale}
-          >
-            Make Sale
-          </button>
-        </div>
+        <SaleList saleList={saleList} makeSale={makeSale} />
       </div>
     </div>
   );

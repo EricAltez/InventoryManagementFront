@@ -5,16 +5,22 @@ interface ProductSelectorProps {
   products: Product[];
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  quantity: string;
+  setQuantity: (value: string) => void;
   selectedProduct: Product | null;
   setSelectedProduct: (
     product: (Product & { quantity: number }) | null
   ) => void;
+  addToList: (event: React.FormEvent) => void;
 }
 
 export default function ProductSelector({
+  addToList,
   products,
   searchTerm,
   setSearchTerm,
+  quantity,
+  setQuantity,
   selectedProduct,
   setSelectedProduct,
 }: ProductSelectorProps) {
@@ -31,7 +37,6 @@ export default function ProductSelector({
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [productIdError, setProductIdError] = useState("");
-  const [quantity, setQuantity] = useState("");
   const [quantityError, setQuantityError] = useState("");
   return (
     <div className="flex flex-col space-y-2">
@@ -58,7 +63,7 @@ export default function ProductSelector({
       {/* Product list */}
       {searchTerm && filteredProducts.length > 0 && (
         <ul className="border rounded mt-2 max-h-40 overflow-y-auto">
-          {filteredProducts.map((product) => (
+          {filteredProducts.map((product: Product) => (
             <li
               key={product.id}
               className="p-2 cursor-pointer hover:bg-gray-200"
@@ -87,6 +92,15 @@ export default function ProductSelector({
         }}
       />
       {quantityError && <p className="text-red-500">{quantityError}</p>}
+      <div className="p-2">
+        <button
+          className="border-solid border-black bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="submit"
+          onClick={addToList}
+        >
+          Add to sale list
+        </button>
+      </div>
     </div>
   );
 }
