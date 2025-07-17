@@ -67,7 +67,10 @@ export default function ProductSelector({
             <li
               key={product.id}
               className="p-2 cursor-pointer hover:bg-gray-200"
-              onClick={() => setSelectedProduct({ ...product, quantity: 0 })}
+              onClick={() => {
+                setSelectedProduct({ ...product, quantity: 0 });
+                setSearchTerm("");
+              }}
             >
               {product.name} (ID: {product.id}) - {product.description}
               {product.price}
